@@ -5,6 +5,8 @@ An intelligent recruitment assistant that automates resume screening using a loc
 
 <p align="center">
   <img src="https://img.shields.io/badge/LLM-Gemma%204b-blueviolet?style=for-the-badge&logo=OpenAI&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Framework-LangChain-green?style=for-the-badge&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Local%20LLM-Ollama-4B0082?style=for-the-badge&logoColor=white"/>
   <img src="https://img.shields.io/badge/Framework-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"/>
   <img src="https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
   <img src="https://img.shields.io/badge/Vector%20DB-FAISS-0044CC?style=for-the-badge"/>
