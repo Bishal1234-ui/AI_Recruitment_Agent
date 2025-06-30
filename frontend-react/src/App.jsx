@@ -56,69 +56,134 @@ function App() {
     setLoading(false);
   };
 
+  const FileIcon = () => (
+    <svg className="file-icon" fill="currentColor" viewBox="0 0 20 20">
+      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V6zM7 11a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clipRule="evenodd" />
+    </svg>
+  );
+
   return (
     <div className="app-container">
       <header className="navbar">
-        <h1 className="navbar-title">Job Application Agent</h1>
+        <h1 className="navbar-title">🚀 Career Opportunities Portal</h1>
       </header>
 
       <main className="main-content">
         <div className="job-details-column">
           {jobInfo ? (
             <div className="card">
-              <h2>Job Information</h2>
-              <p><strong>Job ID:</strong> 1234</p>
-              <p><strong>Title:</strong> {jobInfo.job_title}</p>
-              <p><strong>Details:</strong> {jobInfo.job_details}</p>
-              <p><strong>Requirements:</strong> {jobInfo.requirements}</p>
-              <p><strong>Experience:</strong> {jobInfo.experience}</p>
-              <p><strong>Skills:</strong> {jobInfo.skills}</p>
+              <h2>💼 Position Details</h2>
+              <div className="job-info-grid">
+                <div className="job-info-item">
+                  <p><strong>Job ID:</strong> #JOB-2024-001</p>
+                </div>
+                <div className="job-info-item">
+                  <p><strong>Title:</strong> {jobInfo.job_title}</p>
+                </div>
+                <div className="job-info-item">
+                  <p><strong>Description:</strong> {jobInfo.job_details}</p>
+                </div>
+                <div className="job-info-item">
+                  <p><strong>Requirements:</strong> {jobInfo.requirements}</p>
+                </div>
+                <div className="job-info-item">
+                  <p><strong>Experience Level:</strong> {jobInfo.experience}</p>
+                </div>
+                <div className="job-info-item skills-section">
+                  <p><strong>Key Skills:</strong></p>
+                  <div className="skills-list">
+                    {jobInfo.skills.split(',').map((skill, index) => (
+                      <span key={index} className="skill-tag">
+                        {skill.trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
-             !error && <p>Loading job details...</p>
+             !error && (
+               <div className="card loading-card">
+                 <h2>💼 Position Details</h2>
+                 <p>Loading exciting opportunities for you...</p>
+               </div>
+             )
           )}
         </div>
 
         <div className="application-column">
           <div className="card">
-            <h2>Apply Now</h2>
+            <h2>📝 Submit Your Application</h2>
             <form onSubmit={handleSubmit} className="form">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                required
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <p>Upload Your Resume</p>
-              <input
-                type="file"
-                accept=".pdf"
-                required
-                onChange={(e) => setResume(e.target.files[0])}
-              />
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  required
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label className="form-label">Email Address</label>
+                <input
+                  type="email"
+                  placeholder="your.email@domain.com"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label className="form-label">Upload Resume (PDF)</label>
+                <div className="file-input-wrapper">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    required
+                    onChange={(e) => setResume(e.target.files[0])}
+                  />
+                  <div className={`file-input-display ${resume ? 'file-selected' : ''}`}>
+                    <FileIcon />
+                    <span className="file-text">
+                      {resume ? resume.name : 'Choose your resume file (PDF only)'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
               <button type="submit" disabled={loading}>
-                {loading ? "Analyzing..." : "Submit Application"}
+                {loading && <span className="loading-spinner"></span>}
+                {loading ? "Analyzing Your Profile..." : "🚀 Submit Application"}
               </button>
             </form>
-            {error && <p className="error">{error}</p>}
+            {error && <div className="error">⚠️ {error}</div>}
           </div>
 
-          {loading && <div className="card"><p>Analyzing your resume, please wait...</p></div>}
+          {loading && (
+            <div className="card loading-card">
+              <h2>🔍 AI Analysis in Progress</h2>
+              <p>Our intelligent system is carefully reviewing your profile and matching it against our requirements...</p>
+            </div>
+          )}
 
           {result && (
-            <div className="result-card">
-              <h2>Application Result</h2>
-              <p><strong>Decision:</strong> {result.decision}</p>
-              <p><strong>Compatibility Score:</strong> {result.compatibility_score}</p>
-              <p><strong>Justification:</strong> {result.justification}</p>
+            <div className={`result-card ${result.decision?.toLowerCase() === 'rejected' ? 'rejected' : ''}`}>
+              <h2>📊 Application Assessment</h2>
+              <p>
+                <strong>Decision:</strong> 
+                <span className={`decision-badge ${result.decision?.toLowerCase() === 'accepted' ? 'accepted' : 'rejected'}`}>
+                  {result.decision}
+                </span>
+              </p>
+              <p>
+                <strong>Compatibility Score:</strong>
+                <span className="compatibility-score">{result.compatibility_score}</span>
+              </p>
+              <p><strong>Detailed Analysis:</strong> {result.justification}</p>
             </div>
           )}
         </div>
